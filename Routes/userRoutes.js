@@ -12,30 +12,24 @@ router.get(
 );
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
-
 router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword);
-router.delete(
-  '/deleteAccount',
-  authController.protect,
-  userController.deleteMe,
-);
 
+// Protecting all routes coming after this point
+router.use(authController.protect);
+
+router.delete('/deleteAccount', userController.deleteMe);
 // router.get('/inactive', userController.getAllInactive);
+router.patch('/updatePassword', authController.updatePassword);
+router.patch('/updateMe', userController.updateMe);
 
-router.patch(
-  '/updatePassword',
-  authController.protect,
-  authController.updatePassword,
-);
-
-router.patch('/updateMe', authController.protect, userController.updateMe);
+// To restrict to admins after this point
+router.use(authController.restrictTo('admin'));
 
 router
   .route('/')
   .get(userController.getAllUsers)
   .post(userController.createUser);
-
 router
   .route('/:id')
   .get(userController.getUser)
