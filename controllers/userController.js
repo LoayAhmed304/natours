@@ -66,17 +66,12 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'This route is not yet defined',
-  });
-};
+exports.getUser = factory.getOne(User);
 
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'error',
-    message: 'This route is not yet defined',
+    message: 'This route is not defined! Please sign up instead.',
   });
 };
 // Do NOT update passwords with this!
